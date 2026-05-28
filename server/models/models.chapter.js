@@ -9,6 +9,9 @@ const chapterSchema = new mongoose.Schema({
     title: { type: String, required: true },
     order: { type: Number, required: true },
     youtubeVideoId: { type: String },
+    videoUrl: { type: String },
+    isVisible: { type: Boolean, default: true }, // Teacher can hide from students
+
 
     pdfMaterials: [{
         title: { type: String },

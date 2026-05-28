@@ -36,8 +36,21 @@ export const AuthProvider = ({ children }) => {
     delete api.defaults.headers.common["Authorization"];
   };
 
+  // Called after a successful payment to pull fresh user data
+  // (including the newly added courseId in purchasedCourses)
+  const refreshUser = async () => {
+    try {
+      const response = await api.get("/users/profile");
+      const freshUser = response.data;
+      setUser(freshUser);
+      localStorage.setItem("lms_user", JSON.stringify(freshUser));
+    } catch (error) {
+      console.error("Failed to refresh user profile:", error.message);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

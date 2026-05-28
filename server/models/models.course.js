@@ -13,6 +13,7 @@ const courseSchema = new mongoose.Schema({
         message: { type: String, required: true },
         postedAt: { type: Date, default: Date.now }
     }],
+    thumbnailUrl: { type: String, default: '' },
     isPublished: { type: Boolean, default: false }
 }, { timestamps: true });
 
