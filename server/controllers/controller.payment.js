@@ -14,12 +14,6 @@ const getPhonePeToken = async () => {
     tokenParams.append('client_version', '1');
     tokenParams.append('grant_type', 'client_credentials');
 
-    // 🔍 Diagnostic: verify what's being sent (remove after fixing)
-    console.log('🔑 PhonePe Auth Attempt:');
-    console.log('   client_id   :', process.env.PHONEPE_CLIENT_ID);
-    console.log('   client_secret (first 8 chars):', process.env.PHONEPE_CLIENT_SECRET?.slice(0, 8) + '...');
-    console.log('   client_version: 1');
-
     try {
         const tokenResponse = await axios.post(
             'https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token',
@@ -28,8 +22,6 @@ const getPhonePeToken = async () => {
         );
         return tokenResponse.data.access_token;
     } catch (err) {
-        console.error('❌ Token fetch failed. Full PhonePe error:', JSON.stringify(err.response?.data, null, 2));
-        console.error('   Status code:', err.response?.status);
         throw err;
     }
 };
@@ -119,7 +111,6 @@ export const initiatePayment = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('❌ PHONEPE INITIATE ERROR:', error.response?.data || error.message);
         res.status(500).json({ message: 'Payment initiation failed', error: error.message });
     }
 };
@@ -157,7 +148,6 @@ export const verifyPayment = async (req, res) => {
         );
 
         const orderState = statusResponse.data?.state;
-        console.log(`📊 PhonePe order state for ${transactionId}:`, orderState);
 
         // PhonePe V2 order states: COMPLETED, FAILED, PENDING
         if (orderState === 'COMPLETED') {
@@ -168,7 +158,6 @@ export const verifyPayment = async (req, res) => {
         // Sandbox: PhonePe sandbox sometimes returns PENDING even after test success.
         // Treat PENDING as success in sandbox for demo purposes.
         if (orderState === 'PENDING' && process.env.NODE_ENV !== 'production') {
-            console.warn('⚠️  Sandbox: treating PENDING as SUCCESS for demo.');
             await enrollStudent(transactionId);
             return res.status(200).json({ success: true, message: 'Sandbox: enrolled (PENDING treated as SUCCESS).' });
         }
@@ -176,7 +165,6 @@ export const verifyPayment = async (req, res) => {
         return res.status(400).json({ success: false, message: `Payment not completed. State: ${orderState}` });
 
     } catch (error) {
-        console.error('❌ PHONEPE VERIFY ERROR:', error.response?.data || error.message);
         res.status(500).json({ success: false, message: 'Verification failed', error: error.message });
     }
 };
@@ -207,7 +195,6 @@ export const handleWebhook = async (req, res) => {
             .digest('hex');
 
         if (receivedHash !== expectedHash) {
-            console.error('❌ Webhook X-VERIFY mismatch');
             return res.status(403).json({ message: 'Invalid X-VERIFY checksum' });
         }
 
@@ -215,8 +202,6 @@ export const handleWebhook = async (req, res) => {
         const payload = req.body;
         const transactionId = payload?.data?.merchantOrderId || payload?.merchantOrderId;
         const eventType = payload?.type;
-
-        console.log(`📩 Webhook received: type=${eventType}, txn=${transactionId}`);
 
         if (eventType === 'CHECKOUT_ORDER_COMPLETED' && transactionId) {
             await enrollStudent(transactionId);
@@ -226,7 +211,6 @@ export const handleWebhook = async (req, res) => {
         res.status(200).json({ message: 'Webhook received' });
 
     } catch (error) {
-        console.error('❌ WEBHOOK HANDLER ERROR:', error.message);
         res.status(500).json({ message: 'Webhook processing failed' });
     }
 };
