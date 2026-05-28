@@ -42,7 +42,8 @@ const Login = () => {
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || "Authentication failed. Please try again."
+        err.response?.data?.message ||
+          "Authentication failed. Please try again.",
       );
     }
   };

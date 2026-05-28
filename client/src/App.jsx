@@ -34,7 +34,10 @@ function App() {
             <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
             <Route path="/teacher/students" element={<AllStudents />} />
             <Route path="/notice-board" element={<NoticeBoard />} />
-            <Route path="/payment-status/:transactionId" element={<PaymentStatus />} />
+            <Route
+              path="/payment-status/:transactionId"
+              element={<PaymentStatus />}
+            />
           </Routes>
         </main>
       </BrowserRouter>

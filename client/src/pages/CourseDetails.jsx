@@ -24,7 +24,8 @@ const CustomVideoPlayer = ({ src, title }) => {
 
   // Extract YT ID
   const extractYTId = (url) => {
-    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+    const regex =
+      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
     const match = url.match(regex);
     return match ? match[1] : url;
   };
@@ -35,7 +36,9 @@ const CustomVideoPlayer = ({ src, title }) => {
   const togglePlay = () => {
     if (isYouTube) {
       if (!ytPlayerRef.current) return;
-      const state = ytPlayerRef.current.getPlayerState ? ytPlayerRef.current.getPlayerState() : -1;
+      const state = ytPlayerRef.current.getPlayerState
+        ? ytPlayerRef.current.getPlayerState()
+        : -1;
       if (state === 1) {
         ytPlayerRef.current.pauseVideo();
         setIsPlaying(false);
@@ -216,7 +219,7 @@ const CustomVideoPlayer = ({ src, title }) => {
           rel: 0,
           showinfo: 0,
           iv_load_policy: 3,
-          origin: window.location.origin
+          origin: window.location.origin,
         },
         events: {
           onReady: (event) => {
@@ -231,8 +234,8 @@ const CustomVideoPlayer = ({ src, title }) => {
             } else if (event.data === 2 || event.data === 0) {
               setIsPlaying(false);
             }
-          }
-        }
+          },
+        },
       });
     };
 
@@ -288,7 +291,7 @@ const CustomVideoPlayer = ({ src, title }) => {
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div 
+    <div
       ref={playerContainerRef}
       className="relative bg-black w-full h-full group overflow-hidden select-none"
       onMouseMove={handleMouseMove}
@@ -299,7 +302,10 @@ const CustomVideoPlayer = ({ src, title }) => {
         {isYouTube ? (
           <div className="w-full h-full relative overflow-hidden">
             {/* Transparent pointer-events blocker & click capture overlay */}
-            <div className="absolute inset-0 z-10 cursor-pointer" onClick={togglePlay} />
+            <div
+              className="absolute inset-0 z-10 cursor-pointer"
+              onClick={togglePlay}
+            />
             <div ref={ytContainerRef} className="w-full h-full" />
           </div>
         ) : (
@@ -321,34 +327,41 @@ const CustomVideoPlayer = ({ src, title }) => {
 
       {/* Large play overlay button in center when paused */}
       {!isPlaying && (
-        <div 
+        <div
           onClick={togglePlay}
           className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer transition-all duration-300 animate-fade-in z-10"
         >
           <div className="w-16 h-16 rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-110 active:scale-95 transition-all text-white flex items-center justify-center shadow-2xl">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-8 h-8 ml-1" viewBox="0 0 16 16">
-              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              className="w-8 h-8 ml-1"
+              viewBox="0 0 16 16"
+            >
+              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
             </svg>
           </div>
         </div>
       )}
 
       {/* Bottom controls panel with premium fade & slide transition */}
-      <div 
+      <div
         className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col gap-3 transition-all duration-300 ease-out z-20 ${
-          showControls ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+          showControls
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-2 pointer-events-none"
         }`}
       >
         {/* Progress Seek Bar */}
-        <div 
+        <div
           onClick={handleSeek}
           className="relative h-1.5 bg-white/30 rounded-full cursor-pointer hover:h-2 transition-all flex items-center"
         >
-          <div 
+          <div
             style={{ width: `${progressPercent}%` }}
             className="h-full bg-blue-600 rounded-full relative transition-all duration-75"
           />
-          <div 
+          <div
             style={{ left: `calc(${progressPercent}% - 6px)` }}
             className="absolute w-3 h-3 rounded-full bg-white shadow scale-0 hover:scale-100 group-hover:scale-100 transition-transform"
           />
@@ -358,17 +371,27 @@ const CustomVideoPlayer = ({ src, title }) => {
         <div className="flex items-center justify-between text-white text-sm select-none">
           <div className="flex items-center gap-4">
             {/* Play/Pause Button */}
-            <button 
+            <button
               onClick={togglePlay}
               className="hover:text-blue-400 active:scale-90 transition-all cursor-pointer"
             >
               {isPlaying ? (
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-5 h-5" viewBox="0 0 16 16">
-                  <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="w-5 h-5"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-5 h-5" viewBox="0 0 16 16">
-                  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="w-5 h-5"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
                 </svg>
               )}
             </button>
@@ -380,24 +403,34 @@ const CustomVideoPlayer = ({ src, title }) => {
 
             {/* Volume controls */}
             <div className="flex items-center gap-1.5 group/volume">
-              <button 
+              <button
                 onClick={toggleMute}
                 className="hover:text-blue-400 active:scale-90 transition-all cursor-pointer"
               >
                 {isMuted ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-4 h-4" viewBox="0 0 16 16">
-                    <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zm7.137 2.096a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    className="w-4 h-4"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zm7.137 2.096a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z" />
                   </svg>
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-4 h-4" viewBox="0 0 16 16">
-                    <path d="M11.536 14.01A8.473 8.473 0 0 0 14 8c0-2.29-.904-4.37-2.37-5.914a.5.5 0 0 0-.742.672A7.476 7.476 0 0 1 13 8c0 2.022-.812 3.854-2.124 5.184a.5.5 0 1 0 .76.646zm-2.93-2.93a5.474 5.474 0 0 0 1.637-3.805c0-1.503-.604-2.864-1.58-3.847a.5.5 0 1 0-.708.708C8.75 4.908 9.25 5.897 9.25 7c0 1.103-.45 2.092-1.213 2.853a.5.5 0 1 0 .708.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    className="w-4 h-4"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.536 14.01A8.473 8.473 0 0 0 14 8c0-2.29-.904-4.37-2.37-5.914a.5.5 0 0 0-.742.672A7.476 7.476 0 0 1 13 8c0 2.022-.812 3.854-2.124 5.184a.5.5 0 1 0 .76.646zm-2.93-2.93a5.474 5.474 0 0 0 1.637-3.805c0-1.503-.604-2.864-1.58-3.847a.5.5 0 1 0-.708.708C8.75 4.908 9.25 5.897 9.25 7c0 1.103-.45 2.092-1.213 2.853a.5.5 0 1 0 .708.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z" />
                   </svg>
                 )}
               </button>
-              <input 
-                type="range" 
-                min="0" 
-                max="1" 
+              <input
+                type="range"
+                min="0"
+                max="1"
                 step="0.05"
                 value={isMuted ? 0 : volume}
                 onChange={handleVolumeChange}
@@ -410,8 +443,8 @@ const CustomVideoPlayer = ({ src, title }) => {
             {/* Speed Selector */}
             <div className="flex items-center gap-1">
               <span className="text-white/60 text-xs">Speed:</span>
-              <select 
-                value={playbackRate} 
+              <select
+                value={playbackRate}
                 onChange={handleSpeedChange}
                 className="bg-black/60 border border-white/20 text-white rounded text-xs px-1.5 py-0.5 focus:outline-none cursor-pointer"
               >
@@ -423,12 +456,17 @@ const CustomVideoPlayer = ({ src, title }) => {
             </div>
 
             {/* Fullscreen Button */}
-            <button 
+            <button
               onClick={handleFullscreen}
               className="hover:text-blue-400 active:scale-90 transition-all cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-4 h-4" viewBox="0 0 16 16">
-                <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-4ZM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1-.5-.5ZM.5 11a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 .5-.5Z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                className="w-4 h-4"
+                viewBox="0 0 16 16"
+              >
+                <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-4ZM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1-.5-.5ZM.5 11a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5Zm15 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 .5-.5Z" />
               </svg>
             </button>
           </div>
@@ -443,7 +481,7 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
   const [quiz, setQuiz] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState({}); // { questionIndex: optionIndex }
-  const [result, setResult] = useState(null);   // null | { score, total, percentage, breakdown }
+  const [result, setResult] = useState(null); // null | { score, total, percentage, breakdown }
   const [pastResult, setPastResult] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -459,7 +497,9 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
       try {
         const [quizRes, resultRes] = await Promise.all([
           api.get(`/quiz/${chapterId}`),
-          !isTeacher ? api.get(`/quiz/${chapterId}/my-result`) : Promise.resolve({ data: null })
+          !isTeacher
+            ? api.get(`/quiz/${chapterId}/my-result`)
+            : Promise.resolve({ data: null }),
         ]);
         setQuiz(quizRes.data.quiz || []);
         if (resultRes.data?.attempted) setPastResult(resultRes.data);
@@ -489,7 +529,12 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
     }
   };
 
-  if (loading) return <p className="text-sm text-gray-400 dark:text-gray-500 py-4 transition-colors">Loading quiz...</p>;
+  if (loading)
+    return (
+      <p className="text-sm text-gray-400 dark:text-gray-500 py-4 transition-colors">
+        Loading quiz...
+      </p>
+    );
   if (quiz.length === 0)
     return (
       <div className="py-6 text-center text-gray-400 dark:text-gray-500 text-sm transition-colors">
@@ -505,15 +550,18 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
     const passed = pct >= 60;
     return (
       <div className="py-4">
-        <div className={`rounded-xl p-6 text-center mb-6 transition-colors ${
-          passed 
-            ? "bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/35 text-green-700 dark:text-green-400" 
-            : "bg-red-50 dark:bg-red-955/20 border border-red-200 dark:border-red-900/35 text-red-700 dark:text-red-400"
-        }`}>
+        <div
+          className={`rounded-xl p-6 text-center mb-6 transition-colors ${
+            passed
+              ? "bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/35 text-green-700 dark:text-green-400"
+              : "bg-red-50 dark:bg-red-955/20 border border-red-200 dark:border-red-900/35 text-red-700 dark:text-red-400"
+          }`}
+        >
           <div className="text-4xl mb-2">{passed ? "🎉" : "📚"}</div>
           <h3 className="text-2xl font-extrabold">{pct}%</h3>
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mt-1 transition-colors">
-            {result.score} / {result.totalQuestions} correct &nbsp;·&nbsp; {passed ? "Passed!" : "Keep practicing!"}
+            {result.score} / {result.totalQuestions} correct &nbsp;·&nbsp;{" "}
+            {passed ? "Passed!" : "Keep practicing!"}
           </p>
         </div>
 
@@ -523,23 +571,30 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
             <div
               key={i}
               className={`p-4 rounded-lg border text-sm transition-colors ${
-                item.isCorrect 
-                  ? "bg-green-50 dark:bg-green-955/25 border-green-200 dark:border-green-900/30 text-green-800 dark:text-green-300" 
+                item.isCorrect
+                  ? "bg-green-50 dark:bg-green-955/25 border-green-200 dark:border-green-900/30 text-green-800 dark:text-green-300"
                   : "bg-red-50 dark:bg-red-955/25 border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-300"
               }`}
             >
               <p className="font-semibold mb-1">
                 Q{i + 1}. {item.question}
               </p>
-              <p className={`text-xs font-medium ${item.isCorrect ? "text-green-700 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
-                {item.isCorrect ? "✅ Correct" : `❌ Wrong — Correct: Option ${item.correct + 1}`}
+              <p
+                className={`text-xs font-medium ${item.isCorrect ? "text-green-700 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}
+              >
+                {item.isCorrect
+                  ? "✅ Correct"
+                  : `❌ Wrong — Correct: Option ${item.correct + 1}`}
               </p>
             </div>
           ))}
         </div>
 
         <button
-          onClick={() => { setResult(null); setSelected({}); }}
+          onClick={() => {
+            setResult(null);
+            setSelected({});
+          }}
           className="mt-4 w-full text-sm font-semibold border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer select-none"
         >
           Retake Quiz
@@ -553,13 +608,19 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
       {/* Past result banner */}
       {pastResult && !result && (
         <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/30 rounded-lg px-4 py-2 text-sm text-blue-700 dark:text-blue-400 font-medium transition-colors">
-          Your last score: <strong>{pastResult.score}/{pastResult.totalQuestions}</strong> ({pastResult.percentage}%)
-          &nbsp;— Retake to improve!
+          Your last score:{" "}
+          <strong>
+            {pastResult.score}/{pastResult.totalQuestions}
+          </strong>{" "}
+          ({pastResult.percentage}%) &nbsp;— Retake to improve!
         </div>
       )}
 
       {quiz.map((q, qi) => (
-        <div key={q._id || qi} className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 transition-colors">
+        <div
+          key={q._id || qi}
+          className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 transition-colors"
+        >
           <p className="font-semibold text-gray-850 dark:text-gray-150 text-sm mb-3 transition-colors">
             {qi + 1}. {q.question}
             {isTeacher && q.correctAnswerIndex !== undefined && (
@@ -593,7 +654,9 @@ const ChapterQuiz = ({ chapterId, isTeacher }) => {
           disabled={submitting || Object.keys(selected).length !== quiz.length}
           className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors disabled:bg-gray-300 dark:disabled:bg-gray-800 disabled:text-gray-500 dark:disabled:text-gray-600 cursor-pointer"
         >
-          {submitting ? "Grading..." : `Submit Quiz (${Object.keys(selected).length}/${quiz.length} answered)`}
+          {submitting
+            ? "Grading..."
+            : `Submit Quiz (${Object.keys(selected).length}/${quiz.length} answered)`}
         </button>
       )}
     </div>
@@ -615,14 +678,19 @@ const CourseDetails = () => {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const isTeacher = user?.role === "teacher";
-  const isEnrolled = user?.purchasedCourses?.map(String).includes(String(courseId)) ?? false;
+  const isEnrolled =
+    user?.purchasedCourses?.map(String).includes(String(courseId)) ?? false;
   // Teachers always get access; enrolled students get access
   const isAccessible = isTeacher || isEnrolled;
 
   // Compute dynamic video source (MP4 url or YouTube watch URL)
   const getChapterVideoSrc = (chapter) => {
     if (!chapter) return null;
-    if (chapter.videoUrl && chapter.videoUrl !== "undefined" && chapter.videoUrl !== "null") {
+    if (
+      chapter.videoUrl &&
+      chapter.videoUrl !== "undefined" &&
+      chapter.videoUrl !== "null"
+    ) {
       return chapter.videoUrl;
     }
     if (chapter.youtubeVideoId) {
@@ -630,22 +698,29 @@ const CourseDetails = () => {
     }
     return null;
   };
-  
+
   const videoSrc = getChapterVideoSrc(activeChapter);
 
   const handleToggleVisibility = async (chapterId) => {
     try {
-      const response = await api.patch(`/courses/chapters/${chapterId}/visibility`);
+      const response = await api.patch(
+        `/courses/chapters/${chapterId}/visibility`,
+      );
       // Update chapters array
-      setChapters(prev => prev.map(ch => {
-        if (ch._id === chapterId) {
-          return { ...ch, isVisible: response.data.isVisible };
-        }
-        return ch;
-      }));
+      setChapters((prev) =>
+        prev.map((ch) => {
+          if (ch._id === chapterId) {
+            return { ...ch, isVisible: response.data.isVisible };
+          }
+          return ch;
+        }),
+      );
       // Update active chapter if it was the one toggled
       if (activeChapter?._id === chapterId) {
-        setActiveChapter(prev => ({ ...prev, isVisible: response.data.isVisible }));
+        setActiveChapter((prev) => ({
+          ...prev,
+          isVisible: response.data.isVisible,
+        }));
       }
     } catch {
       alert("Failed to toggle chapter visibility.");
@@ -679,7 +754,7 @@ const CourseDetails = () => {
     if (!user) return navigate("/login");
     const storedToken = localStorage.getItem("lms_token");
     if (!storedToken) return navigate("/login");
-    
+
     setCheckoutLoading(true);
     try {
       const response = await api.post("/payments/initiate", { courseId });
@@ -691,15 +766,32 @@ const CourseDetails = () => {
     }
   };
 
-  if (loading) return <div className="p-8 text-center text-gray-500 dark:text-gray-400 transition-colors">Loading course...</div>;
-  if (error) return <div className="p-8 text-center text-red-500 dark:text-red-400 transition-colors">{error}</div>;
-  if (!course) return <div className="p-8 text-center text-gray-500 dark:text-gray-400 transition-colors">Course not found.</div>;
+  if (loading)
+    return (
+      <div className="p-8 text-center text-gray-500 dark:text-gray-400 transition-colors">
+        Loading course...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="p-8 text-center text-red-500 dark:text-red-400 transition-colors">
+        {error}
+      </div>
+    );
+  if (!course)
+    return (
+      <div className="p-8 text-center text-gray-500 dark:text-gray-400 transition-colors">
+        Course not found.
+      </div>
+    );
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-8">
       {/* ──────────── LEFT: Player + Quiz ──────────── */}
       <div className="lg:w-2/3">
-        <h1 className="text-3xl font-bold mb-1 text-gray-900 dark:text-gray-100 transition-colors">{course.title}</h1>
+        <h1 className="text-3xl font-bold mb-1 text-gray-900 dark:text-gray-100 transition-colors">
+          {course.title}
+        </h1>
         {isTeacher && (
           <span className="inline-block mb-4 text-xs bg-indigo-100 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border border-transparent dark:border-indigo-900/35 font-semibold px-2.5 py-0.5 rounded-full transition-colors">
             👨‍🏫 Viewing as Teacher — Full Access
@@ -714,32 +806,53 @@ const CourseDetails = () => {
                 <CustomVideoPlayer src={videoSrc} title={activeChapter.title} />
               ) : (
                 <div className="bg-gray-900 aspect-video flex items-center justify-center">
-                  <p className="text-gray-400 text-sm">No video content linked to this chapter.</p>
+                  <p className="text-gray-400 text-sm">
+                    No video content linked to this chapter.
+                  </p>
                 </div>
               )}
             </div>
           ) : (
             <div className="bg-gray-200 dark:bg-gray-800 aspect-video rounded-lg flex items-center justify-center mb-4 transition-colors">
-              <p className="text-gray-500 dark:text-gray-400">No video available</p>
+              <p className="text-gray-500 dark:text-gray-400">
+                No video available
+              </p>
             </div>
           )
         ) : (
           <div className="relative aspect-video rounded-lg overflow-hidden mb-4 shadow-lg">
             {course.thumbnailUrl ? (
-              <img src={course.thumbnailUrl} alt={course.title} className="w-full h-full object-cover" />
+              <img
+                src={course.thumbnailUrl}
+                alt={course.title}
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900" />
             )}
             <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V7.5a4.5 4.5 0 10-9 0v3m-1.5 0h12a1.5 1.5 0 011.5 1.5v7a1.5 1.5 0 01-1.5 1.5h-12A1.5 1.5 0 014.5 19v-7A1.5 1.5 0 016 10.5z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-14 w-14 text-white/80"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.5 10.5V7.5a4.5 4.5 0 10-9 0v3m-1.5 0h12a1.5 1.5 0 011.5 1.5v7a1.5 1.5 0 01-1.5 1.5h-12A1.5 1.5 0 014.5 19v-7A1.5 1.5 0 016 10.5z"
+                />
               </svg>
-              <button 
+              <button
                 onClick={handleBuyCourse}
                 disabled={checkoutLoading}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm px-6 py-2.5 rounded-lg active:scale-95 shadow transition-all cursor-pointer disabled:bg-gray-550"
               >
-                {checkoutLoading ? "Initiating..." : `Unlock All Chapters for ₹${course.price}`}
+                {checkoutLoading
+                  ? "Initiating..."
+                  : `Unlock All Chapters for ₹${course.price}`}
               </button>
             </div>
           </div>
@@ -774,8 +887,12 @@ const CourseDetails = () => {
         {/* Tab Content */}
         {activeTab === "video" || !isAccessible ? (
           <div className="transition-colors">
-            <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">{activeChapter?.title}</h2>
-            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-sm leading-relaxed mt-2">{course.description}</p>
+            <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">
+              {activeChapter?.title}
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap text-sm leading-relaxed mt-2">
+              {course.description}
+            </p>
           </div>
         ) : (
           <ChapterQuiz chapterId={activeChapter?._id} isTeacher={isTeacher} />
@@ -785,16 +902,18 @@ const CourseDetails = () => {
       {/* ──────────── RIGHT: Sidebar ──────────── */}
       <div className="lg:w-1/3">
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4 shadow-sm lg:sticky lg:top-8 transition-colors duration-300">
-          <h3 className="text-xl font-bold mb-4 border-b dark:border-gray-800 pb-2 text-gray-900 dark:text-gray-100">Course Content</h3>
+          <h3 className="text-xl font-bold mb-4 border-b dark:border-gray-800 pb-2 text-gray-900 dark:text-gray-100">
+            Course Content
+          </h3>
           <div className="space-y-2 max-h-[500px] overflow-y-auto">
             {chapters.map((chapter) => {
               const isChapterActive = activeChapter?._id === chapter._id;
               return (
-                <div 
+                <div
                   key={chapter._id}
                   className={`flex items-center justify-between px-3 py-2.5 rounded transition-colors border ${
-                    isChapterActive 
-                      ? "bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-900/35 text-blue-800 dark:text-blue-400 font-medium" 
+                    isChapterActive
+                      ? "bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-900/35 text-blue-800 dark:text-blue-400 font-medium"
                       : "hover:bg-gray-50 dark:hover:bg-gray-950 border-transparent text-gray-700 dark:text-gray-300"
                   }`}
                 >
@@ -802,12 +921,25 @@ const CourseDetails = () => {
                     disabled={!isAccessible}
                     onClick={() => isAccessible && setActiveChapter(chapter)}
                     className={`flex-1 text-left flex items-center gap-2 text-sm ${
-                      !isAccessible ? "cursor-default text-gray-400 dark:text-gray-500" : "cursor-pointer"
+                      !isAccessible
+                        ? "cursor-default text-gray-400 dark:text-gray-500"
+                        : "cursor-pointer"
                     }`}
                   >
                     {!isAccessible && (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 flex-shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                        />
                       </svg>
                     )}
                     <span className="truncate">

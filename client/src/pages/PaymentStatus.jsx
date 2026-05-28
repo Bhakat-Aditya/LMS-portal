@@ -37,13 +37,15 @@ const PaymentStatus = () => {
           setMessage(response.data.message || "You are now enrolled!");
         } else {
           setStatus("error");
-          setMessage(response.data.message || "Payment could not be confirmed.");
+          setMessage(
+            response.data.message || "Payment could not be confirmed.",
+          );
         }
       } catch (err) {
         setStatus("error");
         setMessage(
           err.response?.data?.message ||
-            "Could not verify payment. Please contact support."
+            "Could not verify payment. Please contact support.",
         );
       }
     };
@@ -77,7 +79,9 @@ const PaymentStatus = () => {
               {transactionId}
             </span>
           </p>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 transition-colors">{message}</p>
+          <p className="text-gray-700 dark:text-gray-300 mb-6 transition-colors">
+            {message}
+          </p>
           <Link
             to="/"
             className="inline-block bg-black dark:bg-white text-white dark:text-black font-bold px-6 py-2.5 rounded hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors cursor-pointer select-none"
@@ -99,7 +103,9 @@ const PaymentStatus = () => {
               {transactionId}
             </span>
           </p>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 transition-colors">{message}</p>
+          <p className="text-gray-700 dark:text-gray-300 mb-6 transition-colors">
+            {message}
+          </p>
           <Link
             to="/"
             className="inline-block bg-black dark:bg-white text-white dark:text-black font-bold px-6 py-2.5 rounded hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors cursor-pointer select-none"

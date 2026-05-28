@@ -1,10 +1,10 @@
 import express from 'express';
-import { 
-    getNotices, 
-    createNotice, 
-    deleteNotice, 
-    votePoll, 
-    addComment, 
+import {
+    getNotices,
+    createNotice,
+    deleteNotice,
+    votePoll,
+    addComment,
     deleteComment,
     addReply,
     deleteReply

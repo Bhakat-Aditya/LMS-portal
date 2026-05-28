@@ -4,9 +4,6 @@ import Course from '../models/models.course.js';
 import User from '../models/models.user.js';
 import PendingTransaction from '../models/models.pendingtransaction.js';
 
-// ─────────────────────────────────────────────────────
-// HELPER: Fetch a fresh OAuth Bearer token from PhonePe
-// ─────────────────────────────────────────────────────
 const getPhonePeToken = async () => {
     const tokenParams = new URLSearchParams();
     tokenParams.append('client_id', process.env.PHONEPE_CLIENT_ID);
@@ -26,9 +23,6 @@ const getPhonePeToken = async () => {
     }
 };
 
-// ─────────────────────────────────────────────────────
-// HELPER: Mark a pending transaction as SUCCESS and enroll the student
-// ─────────────────────────────────────────────────────
 const enrollStudent = async (transactionId) => {
     const pending = await PendingTransaction.findOne({ transactionId });
     if (!pending || pending.status === 'SUCCESS') return null;
@@ -44,10 +38,6 @@ const enrollStudent = async (transactionId) => {
     return pending;
 };
 
-// ─────────────────────────────────────────────────────
-// POST /api/payments/initiate
-// Requires: verifyToken middleware
-// ─────────────────────────────────────────────────────
 export const initiatePayment = async (req, res) => {
     try {
         const { courseId } = req.body;

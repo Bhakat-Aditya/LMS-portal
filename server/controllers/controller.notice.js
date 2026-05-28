@@ -15,7 +15,7 @@ export const getNotices = async (req, res) => {
 export const createNotice = async (req, res) => {
     try {
         const { title, content, type, imageUrl, pollQuestion, pollOptions } = req.body;
-        
+
         // Find teacher info
         const user = await User.findById(req.userId);
         if (!user) {
@@ -93,7 +93,7 @@ export const votePoll = async (req, res) => {
         }
 
         // Check if user has already voted for any option in this poll
-        const alreadyVoted = notice.poll.options.some(opt => 
+        const alreadyVoted = notice.poll.options.some(opt =>
             opt.votes.some(voteId => voteId.toString() === req.userId.toString())
         );
 
